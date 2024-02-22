@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# a Bash script that displays the content of the current directory
+
+for file in *; do
+	if [[ ! "$file" == .* && -f "$file" ]]; then
+		filename=$(echo "$file" | cut -d '-' -f 2-)
+		echo "$filename"
+	fi
+done
