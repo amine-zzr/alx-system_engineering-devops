@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# a Bash script that stops aprocess using the pkill command
+
+pkill -9 -f 7-highlander 
