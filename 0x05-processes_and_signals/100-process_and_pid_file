@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# signal handlers for SIGTERM, SIGQUIT, and SIGINT signals
+
+sigterm_sigquit_handler()
+{
+	echo "I hate the kill command"
+	rm -f /var/run/myscript.pid
+	exit 0
+}
+
+sigint_handler() 
+{
+	echo "Y U no love me?!"
+}
+
+trap 'sigterm_sigquit_handler' SIGTERM SIGQUIT
+trap 'sigint_handler' SIGINT
+
+echo "$$" > /var/run/myscript.pid
+
+while :
+do
+	echo "To infinity and beyond"
+	sleep 2
+done
