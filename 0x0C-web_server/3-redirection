@@ -8,7 +8,7 @@ echo 'server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    root /var/www/html;
+    root /etc/nginx/html;
     index index.html;
 
     location /redirect_me {
