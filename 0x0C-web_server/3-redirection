@@ -4,7 +4,7 @@ apt update
 apt install nginx -y
 
 # Configure Nginx to listen on port 80 and return "Hello World!"
-echo 'server {
+printf 'server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
