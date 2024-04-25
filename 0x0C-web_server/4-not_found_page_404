@@ -1,35 +1,24 @@
 #!/usr/bin/env bash
-# Update package list and install Nginx
-apt update
-apt install -y nginx
+# Installs nginx web server
 
-# Create the Nginx configuration file
-cat <<EOF > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
+apt-get update
+apt-get install -y nginx
+service nginx start
+mkdir /etc/nginx/html
+echo "Hello World!" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+echo "server {
+    listen 80;
     listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html;
-
-    location / {
-        return 200 "Hello World!\n";
-    }
-
+    root   /etc/nginx/html;
+    index  index.html;
     location /redirect_me {
         return 301 https://github.com/amine-zzr;
     }
-
     error_page 404 /404.html;
-    location = /404.html {
-        root /var/www/html;
+    location = /404.html{
+        root /etc/nginx/html;
         internal;
     }
-}
-EOF
-
-# Create custom 404 HTML page
-printf "Ceci n'est pas une page\n" > /var/www/html/404.html
-
-# Restart Nginx to apply changes
+}" > /etc/nginx/sites-available/default
 service nginx restart
