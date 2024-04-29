@@ -1,30 +1,43 @@
-# Custom HTTP header in a nginx server
-
-# update ubuntu server
-exec { 'update package list':
-  command  => 'apt-get update',
-  user     => 'root',
-  provider => 'shell',
-}
-
-# install nginx on server
+# Install Nginx package
 package { 'nginx':
-  ensure   => present,
-  provider => 'apt'
+  ensure => installed,
 }
 
-# custom Nginx response header
-file_line { 'configure X-Served-By header':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
-  line   => 'add_header X-Served-By $hostname;'
-  provider => 'augeas',
-}
-
-# start the service
+# Define Nginx service
 service { 'nginx':
-  ensure  => 'running',
+  ensure  => running,
   enable  => true,
-  require => Package['nginx']
+  require => Package['nginx'],
+}
+
+# Configure Nginx server block
+file { '/etc/nginx/sites-available/default':
+  ensure  => file,
+  content => "
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html;
+
+    location / {
+        return 200 'Hello World!\n';
+    }
+
+    add_header X-Served-By ${hostname};
+    location /redirect_me {
+        return 301 https://github.com/amine-zzr;
+    }
+}
+",
+  require => Package['nginx'],
+  notify  => Service['nginx'],
+}
+
+# Enable default server block
+file { '/etc/nginx/sites-enabled/default':
+  ensure  => link,
+  target  => '/etc/nginx/sites-available/default',
+  require => File['/etc/nginx/sites-available/default'],
+  notify  => Service['nginx'],
 }
