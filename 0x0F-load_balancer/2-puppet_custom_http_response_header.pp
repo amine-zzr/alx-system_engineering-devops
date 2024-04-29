@@ -17,17 +17,8 @@ file { '/etc/nginx/sites-available/default':
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html;
-
-    location / {
-        return 200 'Hello World!\n';
-    }
 
     add_header X-Served-By ${hostname};
-    location /redirect_me {
-        return 301 https://github.com/amine-zzr;
-    }
 }
 ",
   require => Package['nginx'],
