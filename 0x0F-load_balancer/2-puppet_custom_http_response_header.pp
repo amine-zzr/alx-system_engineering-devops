@@ -19,6 +19,7 @@ file_line { 'configure X-Served-By header':
   path   => '/etc/nginx/sites-available/default',
   after  => 'listen 80 default_server;',
   line   => 'add_header X-Served-By $hostname;'
+  provider => 'augeas',
 }
 
 # start the service
