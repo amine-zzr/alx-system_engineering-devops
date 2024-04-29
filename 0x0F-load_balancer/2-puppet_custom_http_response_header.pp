@@ -1,38 +1,29 @@
-# Install Nginx package
+# Custom HTTP header in a nginx server
+
+# update ubuntu server
+exec { 'update package list':
+  command  => 'apt-get update',
+  user     => 'root',
+  provider => 'shell',
+}
+
+# install nginx on server
 package { 'nginx':
-  ensure => installed,
+  ensure   => present,
+  provider => 'apt'
 }
 
-# Configure Nginx server
-file { '/etc/nginx/sites-available/default':
-  content => "
-    server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-    
-        root /var/www/html;
-        index index.html;
-    
-        location / {
-            return 200 'Hello World!\n';
-            add_header X-Served-By ${hostname};
-        }
-    
-    }
-  ",
-  notify  => Service['nginx'],
+# custom Nginx response header
+file_line { 'configure X-Served-By header':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => 'add_header X-Served-By $hostname;'
 }
 
-# Enable the default site
-file { '/etc/nginx/sites-enabled/default':
-  ensure => link,
-  target => '/etc/nginx/sites-available/default',
-  notify => Service['nginx'],
-}
-
-# Restart Nginx service after configuration changes
+# start the service
 service { 'nginx':
-  ensure    => running,
-  enable    => true,
-  subscribe => File['/etc/nginx/sites-available/default'],
+  ensure  => 'running',
+  enable  => true,
+  require => Package['nginx']
 }
