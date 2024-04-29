@@ -15,9 +15,9 @@ file { '/etc/nginx/sites-available/default':
     
         location / {
             return 200 'Hello World!\n';
+            add_header X-Served-By ${hostname};
         }
     
-        add_header X-Served-By ${hostname};
     }
   ",
   notify  => Service['nginx'],
