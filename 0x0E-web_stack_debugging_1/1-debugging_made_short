@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Create a symbolic link to configures a server to the desired requirements
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
