@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Overwrite an existing symbolic link to
 # configures a server to the desired requirements
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
