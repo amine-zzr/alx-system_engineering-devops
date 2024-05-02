@@ -2,4 +2,4 @@
 # Overwrite an existing symbolic link to configures a server to the desired requirements
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
-service nginx stop
+kill "$(pgrep 'nginx' | head -1)"
