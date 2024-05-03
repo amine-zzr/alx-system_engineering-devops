@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Function to display DNS information for a specific subdomain
+
+get_info() {
+	ip_add=$(dig $1.$2 +short)
+	record_type=$(dig $1.$2 | awk '/IN\s+[A-Z]+/ {print $4}')
+
+	echo "The subdomain $1 is a $record_type record and points to $ip_add"
+}
+
+if [ $# -eq 1 ]; then
+	domain=$1
+	sub_domains=(www lb-01 web-01 web-02)
+
+	for sub_domain in "${sub_domains[@]}"; do
+		get_info $sub_domain $domain
+	done
+
+elif [ $# -eq 2 ]; then
+	domain=$1
+	sub_domain=$2
+
+	get_info $sub_domain $domain
+fi
