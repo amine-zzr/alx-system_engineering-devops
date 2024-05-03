@@ -3,7 +3,7 @@
 
 get_info() {
 	ip_add=$(dig $1.$2 +short)
-	record_type=$(dig $1.$2 | awk '/IN\s+[A-Z]+/ {print $4}')
+	record_type=$(dig $1.$2 | awk '/IN\s+[A-Z]+/ {printf $4}')
 
 	echo "The subdomain $1 is a $record_type record and points to $ip_add"
 }
