@@ -1,0 +1,9 @@
+frontend http_front
+        bind *:80
+        bind *:443 ssl crt /etc/letsencrypt/live/www.learnengineering.tech/all.pem
+        default_backend http_back
+
+backend http_back
+        balance roundrobin
+        server 511141-web-01 100.26.133.151:80 check
+        server 511141-web-02 100.25.168.188:80 check
