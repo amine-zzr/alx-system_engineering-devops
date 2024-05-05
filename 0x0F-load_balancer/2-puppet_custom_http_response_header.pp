@@ -1,4 +1,4 @@
-# Puppet manifests is a headache
+# Custom HTTP header with Puppet
 
 exec {'update':
   command => '/usr/bin/apt-get update',
