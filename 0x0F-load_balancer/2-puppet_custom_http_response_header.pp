@@ -1,29 +1,30 @@
-# Custom HTTP header in a nginx server
-
-# update ubuntu server
-exec { 'update server':
-  command  => 'apt-get update',
-  user     => 'root',
-  provider => 'shell',
+exec { 'apt-update':
+  command => '/usr/bin/apt update',
+  refreshonly => true,  # Only execute when needed
 }
 
-# install nginx web server on server
 package { 'nginx':
-  ensure   => present,
-  provider => 'apt'
+  ensure  => installed,
+  require => Exec['apt-update'],  # Ensure apt-update runs first
 }
 
-# custom Nginx response header (X-Served-By: hostname)
-file_line { 'add HTTP header':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
-  line   => 'add_header X-Served-By $hostname;'
+file { '/var/www/html/index.html':
+  ensure  => file,
+  content => 'Hello World!',
+  require => Package['nginx'],  # Ensure nginx is installed first
 }
 
-# start service
+# Add a custom header to nginx configuration
+file_line { 'nginx_custom_header':
+  path    => '/etc/nginx/sites-available/default',
+  line    => '    add_header X-Served-By $hostname;',
+  match   => '^    location / {$',
+  after   => '^    location / {$',
+  require => Package['nginx'],
+  notify  => Service['nginx'],  # Restart nginx when the config changes
+}
+
 service { 'nginx':
-  ensure  => 'running',
-  enable  => true,
-  require => Package['nginx']
+  ensure => running,
+  enable => true,
 }
