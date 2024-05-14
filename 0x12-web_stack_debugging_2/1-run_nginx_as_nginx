@@ -6,10 +6,10 @@ sudo chmod 644 /etc/nginx/nginx.conf
 sudo chown -R nginx:nginx /etc/nginx
 
 # Change the nginx user in the configuration file
-sudo sed -i 's/#user www-data/user nginx/g' /etc/nginx/nginx.conf
+sudo sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf 
 
 # Change the port to 8080 in the configuration file
-sudo sed -i 's/listen 80/listen 8080/g' /etc/nginx/sites-enabled/default
+sudo sed -i 's/80/8080/' /etc/nginx/sites-available/default
 
 # Kill apache2 process
 sudo pkill apache2
