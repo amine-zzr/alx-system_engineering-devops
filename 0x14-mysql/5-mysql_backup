@@ -14,4 +14,4 @@ TAR_FILE="$DATE.tar.gz"
 mysqldump -u root -p"$1" --all-databases > "$DUMP_FILE"
 
 # Compress the dump file
-tar -cvf "$TAR_FILE" "$DUMP_FILE"
+tar -czf "$TAR_FILE" "$DUMP_FILE"
