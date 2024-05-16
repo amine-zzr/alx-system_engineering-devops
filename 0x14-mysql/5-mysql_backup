@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Check if the password argument is provided
+if [ $# -ne 1 ]; then
+	echo "I need your password!"
+	exit 1
+fi
+
+# Define variables
+DATE=$(date '+%d-%m-%Y')
+DUMP_FILE="backup.sql"
+TAR_FILE="$DATE.tar.gz"
+
+# Generate MySQL dump
+mysqldump -u root -p"$1" --all-databases > "$DUMP_FILE"
+
+# Compress the dump file
+tar -cvf "$TAR_FILE" "$DUMP_FILE"
