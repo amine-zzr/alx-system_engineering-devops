@@ -2,15 +2,15 @@
 """
 A function that queries the Reddit API
 """
-
 import requests
 
 
 def number_of_subscribers(subreddit):
     """
     Queries the Reddit API and returns the number
-    of subscribers for a given subreddit.
-    
+    of subscribers for a given subreddit,
+    or 0.
+
     Args:
         subreddit (str): The name of the given subreddit.
 
