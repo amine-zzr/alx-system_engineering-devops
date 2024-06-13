@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Get the PID of the Gunicorn master process
-GUNICORN_PID=$(pgrep -f 'gunicorn --workers')
+GUNICORN_PID=$(pgrep -f 'gunicorn --workers' | head -n 1)
 
 if [ -n "$GUNICORN_PID" ]; then
   # Send SIGHUP signal to the Gunicorn master process to reload gracefully
