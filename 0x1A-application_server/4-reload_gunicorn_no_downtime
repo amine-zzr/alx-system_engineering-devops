@@ -2,10 +2,13 @@
 # Get the PID of the Gunicorn master process
 GUNICORN_PID=$(pgrep -f 'gunicorn --workers' | head -n 1)
 
-if [ -n "$GUNICORN_PID" ]; then
-  # Send SIGHUP signal to the Gunicorn master process to reload gracefully
-  kill -HUP "$GUNICORN_PID"
-  echo "Gunicorn master process with PID $GUNICORN_PID has been sent SIGHUP signal to reload gracefully."
-else
-  echo "Gunicorn master process not found."
+# Check if Gunicorn is running
+if [ -z "$GUNICORN_PID" ]; then
+    echo "Gunicorn is not running. Exiting..."
+    exit 1
 fi
+
+# Send a HUP signal to the Gunicorn master process to reload the workers
+kill -HUP "$GUNICORN_PID"
+
+echo "Gunicorn reloaded successfully."
