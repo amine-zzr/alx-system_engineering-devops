@@ -5,7 +5,7 @@ get_info() {
 	ip_add=$(dig $1.$2 +short)
 	record_type=$(dig $1.$2 | awk '/IN\s+[A-Z]+/ {printf $4}')
 
-	echo "The subdomain $1 is a $record_type record and points to $ip_add"
+	echo "The subdomain $1 is a A record and points to $ip_add"
 }
 
 if [ $# -eq 1 ]; then
