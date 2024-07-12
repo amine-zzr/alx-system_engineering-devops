@@ -8,5 +8,5 @@ frontend http_front
 backend http_back
     mode http
     balance roundrobin
-    server 511141-web-01 100.26.133.151:80 check
-    server 511141-web-02 100.25.168.188:80 check
+    server 511141-web-01 54.227.195.180:80 check
+    server 511141-web-02 34.239.255.131:80 check
