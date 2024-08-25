@@ -1,14 +1,4 @@
 #!/usr/bin/env bash
 # Get the PID of the Gunicorn master process
-GUNICORN_PID=$(pgrep -f 'gunicorn --workers' | head -n 1)
 
-# Check if Gunicorn is running
-if [ -z "$GUNICORN_PID" ]; then
-    echo "Gunicorn is not running. Exiting..."
-    exit 1
-fi
-
-# Send a HUP signal to the Gunicorn master process to reload the workers
-kill -HUP "$GUNICORN_PID"
-
-echo "Gunicorn reloaded successfully."
+pgrep gunicorn | xargs kill -HUP
